@@ -220,16 +220,16 @@ Old Wallet :
 
 
 
-  0gchaind tx staking create-validator \
-  --amount=5000000ua0gi \
-  --pubkey=$(0gchaind tendermint show-validator) \
-  --moniker="crypton" \
-  --chain-id=zgtendermint_16600-1 \
-  --commission-rate="0.10" \
-  --commission-max-rate="0.20" \
-  --commission-max-change-rate="0.01" \
-  --details="Nodebrand_DAO" \
-  --min-self-delegation="1" \
+  0gchaind tx staking create-validator \ 
+  --amount=5000000ua0gi \ 
+  --pubkey=$(0gchaind tendermint show-validator) \ 
+  --moniker="crypton" \ 
+  --chain-id=zgtendermint_16600-1 \ 
+  --commission-rate="0.10" \ 
+  --commission-max-rate="0.20" \ 
+  --commission-max-change-rate="0.01" \ 
+  --details="" \ 
+  --min-self-delegation="1" \ 
   --from=wallet \
   --gas=auto \
   --gas-adjustment=1.4
