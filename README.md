@@ -34,9 +34,13 @@ echo 'export RPC_PORT="26657"' >> ~/.bash_profile
 source $HOME/.bash_profile
 
 cd $HOME
+
 0gchaind config chain-id $CHAIN_ID
+
 0gchaind init $MONIKER --chain-id $CHAIN_ID
+
 0gchaind config node tcp://localhost:$RPC_PORT
+
 0gchaind config keyring-backend os
 
 
