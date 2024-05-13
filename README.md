@@ -232,6 +232,8 @@ Old Wallet :
   --min-self-delegation="1" \     
   --from=wallet \    
   --gas=auto \   
+  --website="" \
+  --node=http://localhost:26657 \
   --gas-adjustment=1.4     
 
 کد بالا جای کریپتون حتماااا اسم نود خودتو بذار
