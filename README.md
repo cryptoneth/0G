@@ -290,6 +290,23 @@ https://explorer.coinhunterstr.com/0G-Newton/staking/
 
 https://docs.google.com/forms/d/e/1FAIpQLScsa1lpn43F7XAydVlKK_ItLGOkuz2fBmQaZjecDn76kysQsw/viewform?ts=6617a343
 
+2 نکته برای پر کردن فرم
+
+0gchaind keys show wallet --bech val -a
+
+این کد رو بزنید ادرس ولیدیتورتونو بگیرید 
+
+و قسمت پورت بعد 2 نقطه
+
+26657
+
+
+رو بزنید
+
+مثلا 123.323.123.232:26657
+
+
+
 ----------------------------------------------------------
 
 
@@ -300,3 +317,6 @@ https://docs.google.com/forms/d/e/1FAIpQLScsa1lpn43F7XAydVlKK_ItLGOkuz2fBmQaZjec
 لینکشو میذارم
 
 https://discord.com/invite/0glabs
+
+
+
