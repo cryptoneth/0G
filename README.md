@@ -61,20 +61,20 @@ GRPC_PORT=9090 \
 GRPC_WEB_PORT=9091
 
 
-sed -i \
-    -e "s/\(proxy_app = \"tcp:\/\/\)\([^:]*\):\([0-9]*\).*/\1\2:$PROXY_APP_PORT\"/" \
-    -e "s/\(laddr = \"tcp:\/\/\)\([^:]*\):\([0-9]*\).*/\1\2:$RPC_PORT\"/" \
-    -e "s/\(pprof_laddr = \"\)\([^:]*\):\([0-9]*\).*/\1localhost:$PPROF_PORT\"/" \
-    -e "/\[p2p\]/,/^\[/{s/\(laddr = \"tcp:\/\/\)\([^:]*\):\([0-9]*\).*/\1\2:$P2P_PORT\"/}" \
-    -e "/\[p2p\]/,/^\[/{s/\(external_address = \"\)\([^:]*\):\([0-9]*\).*/\1${EXTERNAL_IP}:$P2P_PORT\"/; t; s/\(external_address = \"\).*/\1${EXTERNAL_IP}:$P2P_PORT\"/}" \
-    $HOME/.0gchain/config/config.toml
+sed -i \    
+    -e "s/\(proxy_app = \"tcp:\/\/\)\([^:]*\):\([0-9]*\).*/\1\2:$PROXY_APP_PORT\"/" \   
+    -e "s/\(laddr = \"tcp:\/\/\)\([^:]*\):\([0-9]*\).*/\1\2:$RPC_PORT\"/" \   
+    -e "s/\(pprof_laddr = \"\)\([^:]*\):\([0-9]*\).*/\1localhost:$PPROF_PORT\"/" \    
+    -e "/\[p2p\]/,/^\[/{s/\(laddr = \"tcp:\/\/\)\([^:]*\):\([0-9]*\).*/\1\2:$P2P_PORT\"/}" \    
+    -e "/\[p2p\]/,/^\[/{s/\(external_address = \"\)\([^:]*\):\([0-9]*\).*/\1${EXTERNAL_IP}:$P2P_PORT\"/; t; s/\(external_address = \"\).*/\1${EXTERNAL_IP}:$P2P_PORT\"/}" \     
+    $HOME/.0gchain/config/config.toml    
 
 
 
-sed -i \
-    -e "/\[api\]/,/^\[/{s/\(address = \"tcp:\/\/\)\([^:]*\):\([0-9]*\)\(\".*\)/\1\2:$API_PORT\4/}" \
-    -e "/\[grpc\]/,/^\[/{s/\(address = \"\)\([^:]*\):\([0-9]*\)\(\".*\)/\1\2:$GRPC_PORT\4/}" \
-    -e "/\[grpc-web\]/,/^\[/{s/\(address = \"\)\([^:]*\):\([0-9]*\)\(\".*\)/\1\2:$GRPC_WEB_PORT\4/}" $HOME/.0gchain/config/app.toml
+sed -i \    
+    -e "/\[api\]/,/^\[/{s/\(address = \"tcp:\/\/\)\([^:]*\):\([0-9]*\)\(\".*\)/\1\2:$API_PORT\4/}" \   
+    -e "/\[grpc\]/,/^\[/{s/\(address = \"\)\([^:]*\):\([0-9]*\)\(\".*\)/\1\2:$GRPC_PORT\4/}" \    
+    -e "/\[grpc-web\]/,/^\[/{s/\(address = \"\)\([^:]*\):\([0-9]*\)\(\".*\)/\1\2:$GRPC_WEB_PORT\4/}" $HOME/.0gchain/config/app.toml    
 
 
 
@@ -95,54 +95,53 @@ sed -i "s/^indexer *=.*/indexer = \"kv\"/" $HOME/.0gchain/config/config.toml
 
 
 
-sudo tee /etc/systemd/system/ogd.service > /dev/null <<EOF
+sudo tee /etc/systemd/system/ogd.service > /dev/null <<EOF   
 [Unit]
-Description=OG Node
-After=network.target
+Description=OG Node     
+After=network.target   
 
 [Service]
-User=$USER
-Type=simple
-ExecStart=$(which 0gchaind) start --home $HOME/.0gchain
-Restart=10
-LimitNOFILE=65535
+User=$USER  
+Type=simple   
+ExecStart=$(which 0gchaind) start --home $HOME/.0gchain   
+Restart=10   
+LimitNOFILE=65535  
 
 [Install]
-WantedBy=multi-user.target
-EOF
+WantedBy=multi-user.target   
+EOF   
 
 اینتر بزنید
 
 
 
 
-sudo systemctl daemon-reload && \
-sudo systemctl enable ogd && \
-sudo systemctl restart ogd
+sudo systemctl daemon-reload && \   
+sudo systemctl enable ogd && \    
+sudo systemctl restart ogd    
 
 
 
 # Update addrbook
 
-curl -o $HOME/.0gchain/config/addrbook.json https://zerog.snapshot.nodebrand.xyz/addrbook.json
+curl -o $HOME/.0gchain/config/addrbook.json https://zerog.snapshot.nodebrand.xyz/addrbook.json  
 
 
 # Update Peers
 
-curl -o $HOME/update_0g_peers.sh https://zerog.snapshot.nodebrand.xyz/update_0g_peers.sh
-chmod +x /root/update_0g_peers.sh
-$HOME/update_0g_peers.sh
+curl -o $HOME/update_0g_peers.sh https://zerog.snapshot.nodebrand.xyz/update_0g_peers.sh      
+chmod +x /root/update_0g_peers.sh     
+$HOME/update_0g_peers.sh     
 
 
 
 # download snapshot
-
-sudo systemctl stop ogd
-cp $HOME/.0gchain/data/priv_validator_state.json $HOME/.0gchain/priv_validator_state.json.backup
-0gchaind tendermint unsafe-reset-all --home $HOME/.0gchain --keep-addr-book
-curl https://snapshots-testnet.nodejumper.io/0g-testnet/0g-testnet_latest.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.0gchain
-mv $HOME/.0gchain/priv_validator_state.json.backup $HOME/.0gchain/data/priv_validator_state.json
-sudo systemctl restart ogd && sudo journalctl -u ogd -f -o cat
+sudo systemctl stop ogd       
+cp $HOME/.0gchain/data/priv_validator_state.json $HOME/.0gchain/priv_validator_state.json.backup    
+0gchaind tendermint unsafe-reset-all --home $HOME/.0gchain --keep-addr-book    
+curl https://snapshots-testnet.nodejumper.io/0g-testnet/0g-testnet_latest.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.0gchain    
+mv $HOME/.0gchain/priv_validator_state.json.backup $HOME/.0gchain/data/priv_validator_state.json     
+sudo systemctl restart ogd && sudo journalctl -u ogd -f -o cat    
 
 اینجا کنترل سی بزنید استوپ شه
 
