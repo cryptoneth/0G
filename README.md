@@ -165,7 +165,9 @@ sudo systemctl restart ogd && sudo journalctl -u ogd -f -o cat
 false
 دربیاد بعد میشه رفت مرحله بعد
 
+https://dashboard.nodebrand.xyz/0G/block
 
+از سایت بالا هم بلاک شبکه رو چک کنید که بلاک ها هم سینک شه
 
 بعد از این که خروجی فالس شد
 
